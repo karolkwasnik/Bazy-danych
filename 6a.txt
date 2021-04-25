@@ -1,0 +1,21 @@
+1.
+id_produktu -> nazwa_produktu, cena_produktu, VAT
+nazwa_produktu -> id_produktu, cena_produktu, VAT
+id_klienta -> nazwa_klienta, data_zamowienia, ilosc, suma_brutto, suma_netto 
+nazwa_klienta -> id_klienta, data_zamowienia, ilosc, suma_brutto, suma_netto
+(cena_produktu,ilosc) -> suma_brutto
+
+2.
+id_klienta + data_zamowienia
+nazwa_klienta + data_zamowienia
+
+3.
+id_pomieszczenia ->  numer_pomieszczenia, id_budynku, powierzchnia, liczba_okien, liczba_drzwi, ulica, miasto, kod_pocztowy
+id_budynku -> powierzchnia, liczba_okien, liczba_drzwi, ulica, miasto, kod_pocztowy
+kod_pocztowy -> miasto
+
+4.
+numer_pomieszczenia + id_budynku
+
+
+

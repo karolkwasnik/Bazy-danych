@@ -1,0 +1,42 @@
+--b
+----The PostgreSQL concat() function is used to concatenate two or more strings
+update ksiegowosc.pracownicy set telefon = 
+CONCAT(SUBSTR(telefon,1,3),'-',SUBSTR(telefon,4,3),'-',SUBSTR(telefon,7,3));
+
+--a
+update ksiegowosc.pracownicy set telefon = CONCAT('(+48)', telefon);
+
+--c
+SELECT UPPER(imie),UPPER(nazwisko) FROM ksiegowosc.pracownicy ORDER BY LENGTH(nazwisko) DESC LIMIT 1;
+
+--d
+SELECT pracownicy.*,MD5(kwota_netto::varchar)
+	FROM ksiegowosc.pracownicy AS pracownicy
+		JOIN ksiegowosc.wynagrodzenie AS wynagrodzenie
+			ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika
+		JOIN ksiegowosc.pensje AS pensje
+			ON wynagrodzenie.id_pensji = pensje.id_pensji;
+			
+--e
+SELECT imie,nazwisko,kwota_netto,kwota AS premia
+	FROM ksiegowosc.pracownicy AS pracownicy
+		JOIN ksiegowosc.wynagrodzenie AS wynagrodzenie
+			ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika
+		JOIN ksiegowosc.pensje AS pensje
+			ON pensje.id_pensji = wynagrodzenie.id_pensji
+		LEFT JOIN ksiegowosc.premie AS premie
+			ON wynagrodzenie.id_premii = premie.id_premii;
+			
+--f
+SELECT CONCAT('Pracownik ',imie,' ',nazwisko,', w dniu ',to_char(data, 'DD.MM.YYYY'),
+			  ' otrzymał pensję całkowitą na kwotę ',COALESCE(kwota_netto+kwota,kwota_netto,kwota),
+			  ' zł, gdzie wynagrodzenie zasadnicze wynosiło: ', kwota_netto, ' zł, premia: ', 
+			  COALESCE(kwota,0), ' zł') AS sprawozdanie
+	FROM ksiegowosc.pracownicy AS pracownicy
+		JOIN ksiegowosc.wynagrodzenie AS wynagrodzenie
+			ON pracownicy.id_pracownika = wynagrodzenie.id_pracownika
+		JOIN ksiegowosc.pensje AS pensje
+			ON pensje.id_pensji = wynagrodzenie.id_pensji
+		LEFT JOIN ksiegowosc.premie AS premie
+			ON wynagrodzenie.id_premii = premie.id_premii;
+		
